@@ -1,12 +1,27 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const express = require("express");
+const {
+  MONGO_USER,
+  MONGO_PASSWORD,
+  MONGO_IP,
+  MONGO_PORT,
+} = require("./config/config");
 
 const app = express();
 
+const mongoUrl = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_IP}:${MONGO_PORT}/?authSource=admin`;
+
 mongoose
-  .connect("mongodb://root:root@mongo:27017/?authSource=admin", {})
+  .connect(
+    mongoUrl
+    //   {
+    //   useNewUrlParser: true,
+    //   useUnifiedTopology: true,
+    // }
+  )
+
   .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.log(err)); 
+  .catch((err) => console.log(err));
 const NODE_ENV = process.env.NODE_ENV;
 const port = process.env.PORT || 3000;
 
