@@ -1,0 +1,14 @@
+{
+  "geom": {
+    "crs": {
+      "type": "name",
+      "properties": {
+        "name": "EPSG:31992"
+      }
+    },
+    "type": "MultiPolygon",
+    "coordinates": [
+      
+    ]
+  }
+}
