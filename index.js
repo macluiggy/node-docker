@@ -1,10 +1,21 @@
 const mongoose = require("mongoose");
 const express = require("express");
+const session = require("express-session");
+const redis = require("redis");
+
+let RedisStore = require("connect-redis")(session);
+let redisClient = redis.createClient({
+  host: REDIS_URL,
+  port: REDIS_PORT,
+});
 const {
   MONGO_USER,
   MONGO_PASSWORD,
   MONGO_IP,
   MONGO_PORT,
+  REDIS_URL,
+  REDIS_PORT,
+  SESSION_SECRET,
 } = require("./config/config");
 
 const postRouter = require("./routes/postRoutes");
@@ -41,6 +52,19 @@ const connectWithRetry = () => {
 };
 
 connectWithRetry();
+app.use(
+  session({
+    store: new RedisStore({ client: redisClient }),
+    secret: SESSION_SECRET,
+    cookie: {
+      secure: false,
+      resave: false,
+      saveUninitialized: false,
+      httpOnly: true,
+      maxAge: 30000,
+    },
+  })
+);
 
 const NODE_ENV = process.env.NODE_ENV;
 const port = process.env.PORT || 3000;
