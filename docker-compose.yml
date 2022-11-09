@@ -6,8 +6,15 @@ services:
       - "3000:3000"
     environment:
       - PORT=3000
+      - MONGO_USER=luiggy
+      - MONGO_PASSWORD=luiggy
+      - SESSION_SECRET=luiggy
+
     depends_on:
       - mongo
+    volumes:
+      - .:/app
+      - /app/node_modules
 
   mongo:
     image: mongo
@@ -21,11 +28,6 @@ services:
 
   redis:
     image: redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis-data:/data
 
 volumes:
   mongo-db:
-  redis-data:
